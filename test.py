@@ -48,6 +48,7 @@ class Character:
         self.__attack = attack
         self.__defense = defense
         self.__cube = cube
+        self.__message = ""
 
     def __str__(self):
         """
@@ -75,36 +76,44 @@ class Character:
             bars = 1
         return "[{0}{1}]".format("#" * bars, " " * (barsMax - bars))
 
-    def defend(self, strike):
+    def defend(self, punch):
         """
         pokec
-        :param strike:
+        :param punch:
         :return:
         """
-        wound = strike - (self.__defense + self.__cube.throw())
+        wound = punch - (self.__defense + self.__cube.throw())
+        if wound > 0:
+            message = "{0} utrzil zranenie {1}hp".format(self.__name, wound)
+            self.__health = self.__health - wound
+            if self.__health < 0:
+                self.__health = 0
+        self.__setMessage(message)
 
-    def strike(self):
+    def strike(self, enemy):
         """
 
         :return:
         """
-        pass
+        punch = self.__attack + self.__cube.throw()
+        enemy.defend(punch)
+
+    def __setMessage(self, message):
+        """
+
+        :param message:
+        :return:
+        """
+        self.__message = message
+
+    def getLastMessage(self):
+        return self.__message
 
 
-kocka = Cube()
-kocka2 = Cube(10)
-
-print(kocka)
-for _ in range(10):
-    print(kocka.throw(), end=" ")
-print("\n", kocka2)
-for _ in range(10):
-    print(kocka2.throw(), end=" ")
-
-banan = Character("BaNaN", 100, 8, 4, kocka)
-onan = Character("OnaN", 100, 6, 10, kocka)
-print("\n")
-print(banan, banan.alive, kocka, kocka.throw())
-print(banan.healthGraph())
-print(onan, banan.alive, kocka2, kocka2.throw())
-print("zivot: ", onan.healthGraph())
+cube = Cube(10)
+fighter = Character("bazmeg", 100, 10, 8, cube)
+print("Bojovnik: {0}".format(fighter))
+print("Nazive: {0}".format(fighter.alive))
+print("Zivot: {0}".format(fighter.healthGraph()))
+fighter.strike(fighter)
+print("Zivot: {0}".format(fighter.healthGraph()))
