@@ -88,6 +88,9 @@ class Character:
             self.__health = self.__health - wound
             if self.__health < 0:
                 self.__health = 0
+                message = message[:-1] + "a skapal"
+        else:
+            message = "{0} odrazil utok".format(self.__name)
         self.__setMessage(message)
 
     def strike(self, enemy):
@@ -96,6 +99,8 @@ class Character:
         :return:
         """
         punch = self.__attack + self.__cube.throw()
+        message = "{0} utoci s uderom za {1}hp".format(self.__name, punch)
+        self.__setMessage(message)
         enemy.defend(punch)
 
     def __setMessage(self, message):
@@ -109,11 +114,42 @@ class Character:
     def getLastMessage(self):
         return self.__message
 
+class arena:
+    '''
 
+    '''
+    def __init__(self, fighter1, fighter2, cube):
+        self.__fighter1 = fighter1
+        self.__fighter2 = fighter2
+        self.__cube = cube
+
+    def clearScreen(self):
+        import sys as _sys
+        import subprocess as _subprocess
+        if _sys.platform.startswith("win"):
+            _subprocess.call(["cmd.exe", "/C", "cls"])
+        else:
+            _subprocess.call(["clear"])
+
+    def printScreen(self):
+        self.clearScreen()
+        print("---------- ARENA ---------- \n")
+        print("Zdravie bojovnikov: \n")
+
+'''
 cube = Cube(10)
 fighter = Character("bazmeg", 100, 10, 8, cube)
+fighter2 = Character("onan", 100, 8, 10, cube)
 print("Bojovnik: {0}".format(fighter))
 print("Nazive: {0}".format(fighter.alive))
 print("Zivot: {0}".format(fighter.healthGraph()))
-fighter.strike(fighter)
-print("Zivot: {0}".format(fighter.healthGraph()))
+print("\n")
+print("Bojovnik: {0}".format(fighter2))
+print("Nazive: {0}".format(fighter2.alive))
+print("Zivot: {0}".format(fighter2.healthGraph()))
+print("\n")
+fighter.strike(fighter2)
+print(fighter.getLastMessage())
+print(fighter2.getLastMessage())
+print("Zivot: {0}".format(fighter2.healthGraph()))
+'''
