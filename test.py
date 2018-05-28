@@ -114,7 +114,8 @@ class Character:
     def getLastMessage(self):
         return self.__message
 
-class arena:
+
+class Arena:
     '''
 
     '''
@@ -123,7 +124,7 @@ class arena:
         self.__fighter2 = fighter2
         self.__cube = cube
 
-    def clearScreen(self):
+    def __clearScreen(self):
         import sys as _sys
         import subprocess as _subprocess
         if _sys.platform.startswith("win"):
@@ -132,9 +133,20 @@ class arena:
             _subprocess.call(["clear"])
 
     def printScreen(self):
-        self.clearScreen()
+        #        self.__clearScreen()
         print("---------- ARENA ---------- \n")
         print("Zdravie bojovnikov: \n")
+        print("{0} {1}".format(self.__fighter1, self.__fighter1.healthGraph()))
+        print("{0} {1}".format(self.__fighter2, self.__fighter2.healthGraph()))
+
+
+cube = Cube(10)
+fighter = Character("bazmeg", 100, 10, 8, cube)
+fighter2 = Character("onan", 100, 8, 10, cube)
+arena = Arena(fighter, fighter2, cube)
+arena.printScreen()
+fighter.strike(fighter2)
+
 
 '''
 cube = Cube(10)
