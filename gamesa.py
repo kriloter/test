@@ -45,6 +45,7 @@ class Character:
         self.__attack = attack
         self.__defense = defense
         self.__cube = cube
+        self.__message = message
 
     def __str__(self):
         """
