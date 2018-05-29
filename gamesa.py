@@ -71,3 +71,24 @@ class Character:
         if (self.alive and countBar ==0):
             countBar = 1
         return "[{0}{1}]".format("#"*countBar, " "*(maxBar - countBar))
+
+    def defend(self, strike):
+        """
+
+        :param strike:
+        :return:
+        """
+        wound = strike - (self.__defense + self.__cube.throw())
+        if wound > 0:
+            self.__health = self.__health - wound
+            if self.__health < 0:
+                self.__health = 0
+
+    def strike(self, enemy):
+        """
+
+        :param enemy:
+        :return:
+        """
+        strike = self.__attack + self.__cube.throw()
+        enemy.defend(strike)
