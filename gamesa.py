@@ -45,7 +45,8 @@ class Character:
         self.__attack = attack
         self.__defense = defense
         self.__cube = cube
-        self.__message = message
+
+    #      self.__message = message
 
     def __str__(self):
         """
@@ -93,3 +94,32 @@ class Character:
         """
         strike = self.__attack + self.__cube.throw()
         enemy.defend(strike)
+
+    def setMessage(self):
+        pass
+
+    def getMessage(self):
+        pass
+
+
+class Arena:
+    """
+
+    """
+
+    def __init__(self, character1, character2):
+        """
+
+        :param character1:
+        :param character2:
+        """
+        self.__character1 = character1
+        self.__character2 = character2
+
+    def match(self):
+        """
+
+        :return:
+        """
+        while self.__character2.alive:
+            self.__character1.strike(self.__character2)
