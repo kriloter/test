@@ -3,7 +3,10 @@
 
 import hashlib
 import json
+from textwrap import dedent
 from time import time
+from uuid import uuid4
+from flask import Flask
 
 class Blockchain:
     def __init__(self):
@@ -70,3 +73,32 @@ class Blockchain:
         :return:
         """
         return self.chain[-1]
+
+    def proofOfWork(self, lastProof):
+        """
+        Simple proof of work.
+        - Find a number p' such that hash(pp') contains leading 4 zeroes, where p is the previous p'
+        - p is the previous proof, and p' is the new proof
+
+        :param lastProof: <int>
+        :return: <int>
+        """
+
+        proof = 0
+        while self.validProof(lastProof, proof):
+            proof += 1
+        return proof
+
+    @staticmethod
+    def validProof(lastProof, proof):
+        """
+        Validates the Proof: Does hash(last_proof, proof) contain 4 leading zeroes?
+
+        :param lastProof: <int> Previous proof
+        :param proof: <int> Current proof
+        :return: <bool> True if correct, False if not.
+        """
+
+        guess = f'{lastProof}{proof}'.encode()
+        guessHash = hashlib.sha256(guess).hexdigest()
+        return guessHash[:4] == "0000"
