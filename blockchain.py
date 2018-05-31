@@ -69,4 +69,4 @@ class Blockchain:
         Returns the last block in the chain.
         :return:
         """
-        pass
+        return self.chain[-1]
